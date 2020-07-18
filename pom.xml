@@ -40,6 +40,10 @@
 						<workers>1</workers>
 						<workerType>Micro</workerType>
 						<objectStoreV2>true</objectStoreV2>
+						<properties>
+   							<anypoint.platform.client_id>7897f6a019ca4b578448a3aab698b963</anypoint.platform.client_id>
+   							<anypoint.platform.client_secret>7897f6a019ca4b578448a3aab698b963</anypoint.platform.client_secret>
+  						</properties>
 					</cloudHubDeployment>
 				</configuration>
 			</plugin>
