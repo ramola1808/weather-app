@@ -42,7 +42,7 @@
 						<objectStoreV2>true</objectStoreV2>
 						<properties>
    							<anypoint.platform.client_id>7897f6a019ca4b578448a3aab698b963</anypoint.platform.client_id>
-   							<anypoint.platform.client_secret>7897f6a019ca4b578448a3aab698b963</anypoint.platform.client_secret>
+   							<anypoint.platform.client_secret>2F01fdAD92504f48B0fD40BEd2fb1BE5</anypoint.platform.client_secret>
   						</properties>
 					</cloudHubDeployment>
 				</configuration>
