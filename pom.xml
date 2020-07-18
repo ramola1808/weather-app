@@ -56,7 +56,7 @@
 						<password>${secure::anypoint.platform}</password>
 						<environment>${secure::anypoint.env}</environment>
 						<muleVersion>${secure::mule.version}</muleVersion>
-						<applicationName>${artifactId}</applicationName>
+						<applicationName>weather-service</applicationName>
 						<workers>${secure::cloudhub.workers}</workers>
 						<workerType>${secure::cloudhub.worker.type}</workerType>
 						<objectStoreV2>${secure::cloudhub.object.store}</objectStoreV2>
