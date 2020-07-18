@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<flow name="weather-api-main">
+		<http:listener config-ref="getWeatherHttpListenerConfig"
+			path="/*">
+			<http:response
+				statusCode="#[vars.httpStatus default 200]">
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:response>
+			<http:error-response
+				statusCode="#[vars.httpStatus default 500]">
+				<http:body><![CDATA[#[payload]]]></http:body>
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:error-response>
+		</http:listener>
+
+		<apikit:router config-ref="weather-api-config" />
+		<error-handler ref="globalErrorHandler">
+		</error-handler>
+	</flow>
+
+	<flow name="weather-api-console">
+		<http:listener config-ref="getWeatherHttpListenerConfig"
+			path="/console/*">
+			<http:response
+				statusCode="#[vars.httpStatus default 200]">
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:response>
+			<http:error-response
+				statusCode="#[vars.httpStatus default 500]">
+				<http:body><![CDATA[#[payload]]]></http:body>
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:error-response>
+		</http:listener>
+
+		<apikit:console config-ref="weather-api-config" />
+
+		<error-handler>
+			<on-error-propagate type="APIKIT:NOT_FOUND">
+				<ee:transform
+					xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+					xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus">404
+						</ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="post:\getWeather:application\json:weather-api-config">
+
+		<logger level="INFO" doc:name="getWeatherStartLogger"
+			doc:id="d903db01-776e-4406-af1a-cbf6ce7548be"
+			message="GetWeatherRequest: Message ID : #[correlationId], RequestPayload: #[payload]" />
+		
+		<ee:transform doc:name="transformCountryMapping" doc:id="66894d39-bca7-410c-a60b-92ef431dae94" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="countryMappingData" ><![CDATA[%dw 2.0
+output application/json
+
+var countryMappingData = readUrl("classpath://mapping/country-code-name-mapping.csv", "application/csv")
+
+---
+countryMappingData map $ filter ($.countryName == upper(payload.Items[(payload.Header find 'country')[0]]))
+
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		
+		<http:request method="GET"
+			doc:name="openWeatherHttpRequestConfig"
+			doc:id="a290c882-12a5-4741-8972-5c292c8dc64d"
+			config-ref="openWeatherHttpRequestConf" path="${http.request.path}" target="openWeatherResponse">
+			<http:query-params><![CDATA[#[output application/java
+				---
+				{
+					"q": payload.Items[(payload.Header find "city")[0]] ++ "," ++ vars.countryMappingData.countryCode[0],
+					"units" : p('temperature.unit'),
+					"appid": p('secure::my.appid')
+				}]]]>
+			</http:query-params>
+		</http:request>
+
+		<ee:transform doc:name="transformOpenWeatherResponse" doc:id="c2de5614-8f77-4944-bf4b-48d8a9fb1a3c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+fun findValueBasedOnIndex(key) = payload.Items[(payload.Header find key)[0]]
+
+var response = vars.openWeatherResponse
+
+var timeZone = response.timezone as String
+
+var zoneName = (vars.countryMappingData map $ filter ($.gmtOffset == timeZone or $.gmtOffsetDayLightSavings == timeZone))[0].zoneName
+ 
+var time = ((((findValueBasedOnIndex("dateTime")) as LocalDateTime {format:"ddMMyyyy'T'HHmm'Z'"}) as DateTime + |P1D|) >> zoneName)
+
+---
+{				
+ 	"lastName"				: findValueBasedOnIndex("lastName"),
+	"name"					: findValueBasedOnIndex("name"),	
+	"timeZone"				: time as String {format: "zz"},	
+	"offSet"				: time as String {format: "XXX"},	
+	"fullName"				: findValueBasedOnIndex("name") ++ " " ++ findValueBasedOnIndex("lastName"),
+	"temperatureCelcius"	: response.main.temp,	
+	"dateTime"				: (time splitBy('+'))[0],	
+	"city"					: findValueBasedOnIndex("city"),	
+	"location"				: response.coord.lat ++ ', ' ++ response.coord.lon
+	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		
+		<logger level="INFO" doc:name="getWeatherEndLogger"
+			doc:id="ab7a3a12-5601-4485-9a63-593be7fd38d9"
+			message="GetWeatherResponse: Message ID : #[correlationId], ResponsePayload: #[payload]" />
+
+		<error-handler>
+			<on-error-continue enableNotifications="true"
+				logException="true" doc:name="On Error Continue"
+				doc:id="1bf52847-4fc1-4f57-b89a-e8cc78d8afc3" type="ANY">
+
+				<ee:transform>
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+"message" : "Error when retrieving Weather for the given City. Please try again later."
+}
+]]></ee:set-payload>
+					</ee:message>
+
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus">500
+						</ee:set-variable>
+					</ee:variables>
+
+				</ee:transform>
+
+			</on-error-continue>
+		</error-handler>
+	</flow>
+
+</mule>

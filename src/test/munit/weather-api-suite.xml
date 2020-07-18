@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	
+	<munit:config name="weather-api-suite.xml" />
+	
+	<munit:test name="weather-api-dubai-test" doc:id="726759c6-3e54-4cd2-8d67-367e7be93b8f" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock openWeatherHttpRequestConfig" doc:id="b6d3e326-28d7-4647-bbac-472f0d790aca" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="a290c882-12a5-4741-8972-5c292c8dc64d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://weatherapidubaitest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://weatherapidubaitest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeadersMapName" value="#[readUrl('classpath://weatherapidubaitest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="openWeatherResponse" value="#[output application/json --- readUrl('classpath://weatherapidubaitest\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="countryMappingData" value="#[output application/json --- readUrl('classpath://weatherapidubaitest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="e2bce6ad-6189-4d71-9b69-e806805d4064" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://weatherapidubaitest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://weatherapidubaitest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeadersMapName" value="#[readUrl('classpath://weatherapidubaitest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to post:\getWeather:application\json:weather-api-config" doc:id="b004b362-9706-46c2-b27d-86e4e355a174" name="post:\getWeather:application\json:weather-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="b5ce3346-f8e0-40d1-9969-b3a95aafa769" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import weatherapidubaitest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="weather-api-sydney-test" doc:id="8b9afdc9-1169-4aa3-bfb8-9c0524629c76" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock openWeatherHttpRequestConfig" doc:id="db4ac397-2eed-4e37-bd5f-5ac9b665356e" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="a290c882-12a5-4741-8972-5c292c8dc64d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://weatherapisydneytest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://weatherapisydneytest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeadersMapName" value="#[readUrl('classpath://weatherapisydneytest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="openWeatherResponse" value="#[output application/json --- readUrl('classpath://weatherapisydneytest\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="countryMappingData" value="#[output application/json --- readUrl('classpath://weatherapisydneytest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="2839a536-ee4c-4f6a-98ea-957b12d1cbd9" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://weatherapisydneytest\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://weatherapisydneytest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeadersMapName" value="#[readUrl('classpath://weatherapisydneytest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to post:\getWeather:application\json:weather-api-config" doc:id="d5efcae9-131b-49b8-a2e3-8fad6ba1b566" name="post:\getWeather:application\json:weather-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="c5085869-5a2d-4f09-b2f8-ab7f291862f6" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import weatherapisydneytest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

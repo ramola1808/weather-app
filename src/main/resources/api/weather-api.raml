@@ -1,0 +1,100 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/b72df797-24be-4e32-b374-f5f1fe2cfbd4/ # 
+version: v3
+title: Get Weather based on Persons location
+
+traits:
+  client-id-required:
+    headers:
+      client_id:
+        type: string
+      client_secret:
+        type: string
+    responses:
+      401:
+        description: Unauthorized or invalid client application credentials
+      500:
+        description: Bad response from authorization server, or WSDL SOAP Fault error
+
+types:
+  person:  
+    description: Person datatype
+    type: object
+    properties:
+      Headers:
+        required: false
+        example: ["name", "lastName", "dateTime", "city", "country"]
+        description: Headers description
+        type: array
+        "items": {
+                    "type": "string"
+                  }
+      Items:
+        required: false
+        example: ["John", "Smith", "31012019T1900Z", "Melbourne", "Australia"]
+        description: Items description
+        type: array
+        "items": {
+                    "type": "string"
+                }
+
+  weather:  
+    description: Weather datatype
+    type: object
+    properties:
+      lastname:
+        required: false
+        type: string
+        example: "Smith"
+      name:
+        required: true
+        type: string
+        example: "John"
+      timeZone:
+        required: true
+        type: string
+        example: ""
+      offSet:
+        required: false
+        type: string
+        example: ""
+      fullName:
+        required: true
+        type: string
+        example: "John Smith"
+      temperatureCelcius:
+        required: true
+        type: number
+        example: 12.5
+      dateTime: 
+        required: true
+        type: string
+        example: "2020-07-18T05:00:00"
+      city:
+        required: true
+        type: string
+        example: "Melbourne"
+      location:
+        required: true
+        type: string
+        example: "-37.81, 144.96"
+
+/getWeather:
+  displayName: /getWeather
+  post:
+    is: [client-id-required]
+    description: Get Weather based on location
+    displayName: post
+    body:
+      application/json:
+        type: person
+    responses:
+      '200':
+        body:
+          application/json:
+            type: weather
+            example: !include example/weatherResponse.json
+
+
+
+
