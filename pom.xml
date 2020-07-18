@@ -32,14 +32,14 @@
 				<extensions>true</extensions>
 				<configuration>
 					<cloudHubDeployment>
-						<username>${anypoint.platform.username}</username>
-						<password>${anypoint.platform.password}</password>
-						<environment>${anypoint.platform.env}</environment>
-						<applicationName>weather-api-service</applicationName>
+						<username>ramola2020</username>
+						<password>Mulesoft2020</password>
+						<environment>Sandbox</environment>
 						<muleVersion>4.3.0</muleVersion>
-						<workers>${no.of.workers}</workers>
-						<workerType>${worker.type}</workerType>
-						<objectStoreV2>${object.store.v2}</objectStoreV2>
+						<applicationName>weather-api-service</applicationName>
+						<workers>1</workers>
+						<workerType>Micro</workerType>
+						<objectStoreV2>true</objectStoreV2>
 					</cloudHubDeployment>
 				</configuration>
 			</plugin>
