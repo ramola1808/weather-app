@@ -37,7 +37,7 @@
 						<environment>${anypoint.platform.env}</environment>
 						<muleVersion>${mule.runtime.version}</muleVersion>
 						<applicationName>weather-api-service</applicationName>
-						<muleVersion>${mule.runtime.version}</muleVersion>
+						<muleVersion>4.3.0</muleVersion>
 						<workers>${no.of.workers}</workers>
 						<workerType>${worker.type}</workerType>
 						<objectStoreV2>${object.store.v2}</objectStoreV2>
