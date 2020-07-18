@@ -27,15 +27,14 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<cloudHubDeployment>
-						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>4.3.0</muleVersion>
+					<cloudHubDeployment>						
 						<username>${secure::anypoint.platform.username}</username>
-						<password>${secure::anypoint.platform.password}</password>
-						<applicationName>weather-api-service</applicationName>
 						<environment>${secure::anypoint.platform.env}</environment>
 						<workers>${secure::no.of.workers}</workers>
 						<workerType>${secure::worker.type}</workerType>
+						<applicationName>weather-api-service</applicationName>
+						<password>${secure::anypoint.platform.password}</password>
+						<muleVersion>4.3.0</muleVersion>
 					</cloudHubDeployment>
 				</configuration>
 			</plugin>
