@@ -84,5 +84,4 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 		</munit:validation>
 	</munit:test>
 
-
 </mule>
