@@ -34,7 +34,7 @@
 						<workers>${secure::no.of.workers}</workers>
 						<workerType>${secure::worker.type}</workerType>
 						<applicationName>weather-api-service</applicationName>
-						<muleVersion>${secure::mule.version}</muleVersion>
+						<muleVersion>${mule.version}</muleVersion>
 					</cloudHubDeployment>
 				</configuration>
 			</plugin>
