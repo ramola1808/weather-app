@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mycompany</groupId>
 	<artifactId>weather-api</artifactId>
@@ -17,7 +17,7 @@
 		<mule.maven.plugin.version>3.3.5</mule.maven.plugin.version>
 		<munit.version>2.2.5</munit.version>
 	</properties>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -25,26 +25,26 @@
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.0.0</version>
 			</plugin>
-			
+
 			<plugin>
-	            <groupId>org.codehaus.mojo</groupId>
-	            <artifactId>properties-maven-plugin</artifactId>
-	            <version>1.0.0</version>
-	            <executions>
-	               <execution>
-	                  <phase>initialize</phase>
-	                  <goals>
-	                     <goal>read-project-properties</goal>
-	                  </goals>
-	                  <configuration>
-	                     <files>
-	                        <file>src/main/resources/properties/secure-dev.properties</file>
-	                     </files>
-	                  </configuration>
-	               </execution>
-	            </executions>
-         	</plugin>
-			
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>src/main/resources/properties/dev.properties</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
@@ -52,21 +52,31 @@
 				<extensions>true</extensions>
 				<configuration>
 					<cloudHubDeployment>
-						<username>${secure::anypoint.username}</username>
-						<password>${secure::anypoint.platform}</password>
-						<environment>${secure::anypoint.env}</environment>
-						<muleVersion>${secure::mule.version}</muleVersion>
-						<applicationName>${artifactId}</applicationName>
-						<workers>${secure::cloudhub.workers}</workers>
-						<workerType>${secure::cloudhub.worker.type}</workerType>
-						<objectStoreV2>${secure::cloudhub.object.store}</objectStoreV2>
+						<username>${anypoint.username}</username>
+						<password>${anypoint.platform}</password>
+						<environment>${anypoint.env}</environment>
+						<muleVersion>${mule.version}</muleVersion>
+						<applicationName>weather-service</applicationName>
+						<workers>${cloudhub.workers}</workers>
+						<workerType>${cloudhub.worker.type}</workerType>
+						<objectStoreV2>${cloudhub.object.store}</objectStoreV2>
 						<properties>
-   							<anypoint.platform.client_id>${secure::anypoint.platform.client_id}</anypoint.platform.client_id>
-   							<anypoint.platform.client_secret>${secure::anypoint.platform.client_secret}</anypoint.platform.client_secret>
-   						</properties>
+							<anypoint.platform.client_id>${anypoint.platform.client_id}</anypoint.platform.client_id>
+							<anypoint.platform.client_secret>${anypoint.platform.client_secret}</anypoint.platform.client_secret>
+						</properties>
 					</cloudHubDeployment>
 				</configuration>
+				<executions>
+					<execution>
+						<id>deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
+
 			<plugin>
 				<groupId>com.mulesoft.munit.tools</groupId>
 				<artifactId>munit-maven-plugin</artifactId>
@@ -148,7 +158,7 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>mulesoft-releases</id>
