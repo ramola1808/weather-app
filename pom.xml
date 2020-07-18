@@ -28,13 +28,13 @@
 				<extensions>true</extensions>
 				<configuration>
 					<cloudHubDeployment>						
-						<username>${secure::anypoint.platform.username}</username>
-						<environment>${secure::anypoint.platform.env}</environment>
-						<workers>${secure::no.of.workers}</workers>
-						<workerType>${secure::worker.type}</workerType>
+						<username>ramola2020</username>
+						<password>Mulesoft2020</password>
+						<environment>Sandbox</environment>
 						<applicationName>weather-api-service</applicationName>
-						<password>${secure::anypoint.platform.password}</password>
 						<muleVersion>4.3.0</muleVersion>
+						<workers>1</workers>
+						<workerType>Micro</workerType>
 					</cloudHubDeployment>
 				</configuration>
 			</plugin>
