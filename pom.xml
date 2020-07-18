@@ -29,7 +29,7 @@
 				<configuration>
 					<cloudHubDeployment>
 						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>${mule.version}</muleVersion>
+						<muleVersion>4.3.0</muleVersion>
 						<username>${secure::anypoint.platform.username}</username>
 						<password>${secure::anypoint.platform.password}</password>
 						<applicationName>weather-api-service</applicationName>
