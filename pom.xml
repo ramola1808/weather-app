@@ -25,6 +25,26 @@
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.0.0</version>
 			</plugin>
+			
+			<plugin>
+	            <groupId>org.codehaus.mojo</groupId>
+	            <artifactId>properties-maven-plugin</artifactId>
+	            <version>1.0.0</version>
+	            <executions>
+	               <execution>
+	                  <phase>initialize</phase>
+	                  <goals>
+	                     <goal>read-project-properties</goal>
+	                  </goals>
+	                  <configuration>
+	                     <files>
+	                        <file>src/main/resources/properties/secure-dev.properties</file>
+	                     </files>
+	                  </configuration>
+	               </execution>
+	            </executions>
+         	</plugin>
+			
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
@@ -32,15 +52,18 @@
 				<extensions>true</extensions>
 				<configuration>
 					<cloudHubDeployment>
-						<username>${anypoint.platform.username}</username>
-						<password>${anypoint.platform.password}</password>
-						<environment>${anypoint.platform.env}</environment>
-						<muleVersion>${mule.runtime.version}</muleVersion>
-						<applicationName>weather-api-service</applicationName>
-						<muleVersion>${mule.runtime.version}</muleVersion>
-						<workers>${no.of.workers}</workers>
-						<workerType>${worker.type}</workerType>
-						<objectStoreV2>${object.store.v2}</objectStoreV2>
+						<username>${secure::anypoint.username}</username>
+						<password>${secure::anypoint.platform}</password>
+						<environment>${secure::anypoint.env}</environment>
+						<muleVersion>${secure::mule.version}</muleVersion>
+						<applicationName>${artifactId}</applicationName>
+						<workers>${secure::cloudhub.workers}</workers>
+						<workerType>${secure::cloudhub.worker.type}</workerType>
+						<objectStoreV2>${secure::cloudhub.object.store}</objectStoreV2>
+						<properties>
+   							<anypoint.platform.client_id>${secure::anypoint.platform.client_id}</anypoint.platform.client_id>
+   							<anypoint.platform.client_secret>${secure::anypoint.platform.client_secret}</anypoint.platform.client_secret>
+  						</properties>
 					</cloudHubDeployment>
 				</configuration>
 			</plugin>
