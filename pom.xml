@@ -35,7 +35,6 @@
 						<username>${anypoint.platform.username}</username>
 						<password>${anypoint.platform.password}</password>
 						<environment>${anypoint.platform.env}</environment>
-						<muleVersion>${mule.runtime.version}</muleVersion>
 						<applicationName>weather-api-service</applicationName>
 						<muleVersion>4.3.0</muleVersion>
 						<workers>${no.of.workers}</workers>
