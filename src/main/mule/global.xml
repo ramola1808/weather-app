@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 		<secure-properties:encrypt algorithm="DES" />
 	</secure-properties:config>
 
-	<api-gateway:autodiscovery apiId="16262362" ignoreBasePath="true" doc:name="apiAutodiscovery" doc:id="df3957d9-5d01-4d68-acc5-725ebdc11dbc" flowRef="weather-api-main" />
+	<!-- <api-gateway:autodiscovery apiId="16262362" ignoreBasePath="true" doc:name="apiAutodiscovery" doc:id="df3957d9-5d01-4d68-acc5-725ebdc11dbc" flowRef="weather-api-main" /> -->
 	
 	<error-handler name="globalErrorHandler" doc:id="7611766d-0384-46e6-a394-efef65d215e9">
 		<on-error-propagate type="APIKIT:BAD_REQUEST">
