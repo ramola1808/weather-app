@@ -28,6 +28,31 @@
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-resource</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>src/main/mule/</directory>
+								</resource>
+								<resource>
+									<directory>src/main/resources/</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
 				<version>1.0-alpha-2</version>
 				<executions>
@@ -40,35 +65,6 @@
 							<files>
 								<file>src/main/resources/properties/dev.properties</file>
 							</files>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<target>
-								<echo>Displaying values from dev.properties file</echo>
-								<echo>${anypoint.username}</echo>
-								<echo>${anypoint.password}</echo>
-								<echo>${anypoint.env}</echo>
-								<echo>${mule.version}</echo>
-								<echo>${cloudhub.workers}</echo>
-								<echo>${cloudhub.worker.type}</echo>
-								<echo>${cloudhub.object.store}</echo>
-								<echo>${anypoint.client_id}</echo>
-								<echo>${anypoint.client_secret}</echo>
-							</target>
-
 						</configuration>
 					</execution>
 				</executions>
@@ -105,7 +101,14 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
 			</plugin>
 
 			<plugin>
