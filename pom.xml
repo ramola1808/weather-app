@@ -28,31 +28,6 @@
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>add-resource</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>add-resource</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>src/main/mule/</directory>
-								</resource>
-								<resource>
-									<directory>src/main/resources/</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
 				<version>1.0-alpha-2</version>
 				<executions>
@@ -78,36 +53,19 @@
 				<configuration>
 
 					<cloudHubDeployment>
-						<username>${anypoint.username}</username>
-						<password>${anypoint.platform}</password>
-						<environment>${anypoint.env}</environment>
-						<muleVersion>${mule.version}</muleVersion>
+						<username>ramola2020</username>
+						<password>Mulesoft2020</password>
+						<environment>Sandbox</environment>
+						<muleVersion>4.3.0</muleVersion>
 						<applicationName>weather-service</applicationName>
-						<workers>${cloudhub.workers}</workers>
-						<workerType>${cloudhub.worker.type}</workerType>
-						<objectStoreV2>${cloudhub.object.store}</objectStoreV2>
+						<workers>1</workers>
+						<workerType>Micro</workerType>
+						<objectStoreV2>true</objectStoreV2>
 						<properties>
-							<anypoint.platform.client_id>${anypoint.client_id}</anypoint.platform.client_id>
-							<anypoint.platform.client_secret>${anypoint.client_secret}</anypoint.platform.client_secret>
+							<anypoint.platform.client_id>7897f6a019ca4b578448a3aab698b963</anypoint.platform.client_id>
+							<anypoint.platform.client_secret>2F01fdAD92504f48B0fD40BEd2fb1BE5</anypoint.platform.client_secret>
 						</properties>
 					</cloudHubDeployment>
-				</configuration>
-				<executions>
-					<execution>
-						<id>deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
 				</configuration>
 			</plugin>
 
