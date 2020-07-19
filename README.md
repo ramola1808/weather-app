@@ -20,10 +20,12 @@ Steps to run the project in AnyPoint Studio:
 2. The current environment selected is dev. 
 3. To change the environment from dev to st or uat:
 	a. Go to global.xml file, Line no 25, change the value of dev
-	b. Give the argument when running the project as -Denv=st or -Denv=uat
-3. Right click on the project --> Run As --> Mule application.
-4. Go to Postman after the project is deployed in AnyPoint Studio and give the below:
-5. URL: http://weather-service.us-e2.cloudhub.io/getWeather
+	b. Also VM argument can be given when running the project as -Denv=st or -Denv=uat
+4. Comment out Line No 37 in global.xml file for API ID or give the VM argument in Run configuration as -Danypoint.platform.gatekeeper=disabled
+5. Right click on the project --> Run As --> Mule application
+	or Right click on the project --> Run As --> Run configurations --> VM arguments --> -Denv=st -Danypoint.platform.gatekeeper=disabled
+6. Go to Postman after the project is deployed in AnyPoint Studio and give the below:
+7. URL: http://weather-service.us-e2.cloudhub.io/getWeather
    Method: POST
    Body: 
 {
@@ -40,9 +42,9 @@ Headers:
 •	client_id:	9062cd74406f410da348699a9abdfdbb
 •	client_secret:	5bc6a894CD284C4494472661557789e7
 
-6. Click on Send.
+8. Click on Send.
 
-7. A response is got as below:
+9. A response is got as below:
 {
   		"lastName": 		"George",
  		 "name": 		"William",
