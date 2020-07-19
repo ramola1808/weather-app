@@ -46,6 +46,35 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<echo>Displaying values from dev.properties file</echo>
+								<echo>${anypoint.username}</echo>
+								<echo>${anypoint.password}</echo>
+								<echo>${anypoint.env}</echo>
+								<echo>${mule.version}</echo>
+								<echo>${cloudhub.workers}</echo>
+								<echo>${cloudhub.worker.type}</echo>
+								<echo>${cloudhub.object.store}</echo>
+								<echo>${anypoint.client_id}</echo>
+								<echo>${anypoint.client_secret}</echo>
+							</target>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
